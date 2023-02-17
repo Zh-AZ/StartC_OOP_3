@@ -1,0 +1,27 @@
+﻿<Window x:Class="StartC_OOP_3.Views.Windows.BillWindow.BillWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StartC_OOP_3.Views.Windows.BillWindow"
+        xmlns:vm="clr-namespace:StartC_OOP_3.ViewModels"
+        mc:Ignorable="d"
+        Title="BillWindow" Height="205" Width="385" WindowStartupLocation="CenterOwner">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+    <Grid Margin="10,10,10,5">
+        <TextBlock HorizontalAlignment="Left" Margin="118,10,0,0" VerticalAlignment="Top" Height="40" Width="150">
+            <Run FontSize="20" FontWeight="DemiBold" Text="Счёт: "/><TextBlock x:Name="textBill" FontWeight="Medium" FontSize="18"/>
+        </TextBlock>
+        <TextBox x:Name="billBox" FontSize="20" FontWeight="DemiBold" HorizontalAlignment="Left" Margin="118,55,0,0" 
+                 TextWrapping="Wrap" VerticalAlignment="Top" Height="40" Width="150" />
+        <UniformGrid Margin="48,106,48,10">
+            <Button x:Name="HereButton" Content="Плюс" Margin="0,0,3,-20" Click="HereButton_Click"/>
+            <!--Click="HereButton_Click"-->
+            <Button x:Name="ThereButton" Content="Минус" Margin="3,0,0,-20" Click="ThereButton_Click"/>
+            <!--Click="ThereButton_Click"-->
+        </UniformGrid>
+        <Button Content="close" HorizontalAlignment="Left" Margin="29,44,0,0" VerticalAlignment="Top" Height="31" Width="52" CommandParameter="{Binding Selected}" Command="{Binding Path=ClosingBillWindowCommand}"/>
+    </Grid>
+</Window>

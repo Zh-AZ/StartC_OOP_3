@@ -1,0 +1,118 @@
+﻿<Window x:Class="StartC_OOP_3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StartC_OOP_3"
+        xmlns:vm="clr-namespace:StartC_OOP_3.ViewModels"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Выход">
+                <MenuItem Header="Выход" Command="{Binding Path=CloseApplicationCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Помощь">
+                <MenuItem Header="О прорамме"/>
+            </MenuItem>
+        </Menu>
+        <!--<StatusBar DockPanel.Dock="Bottom"></StatusBar>-->
+        <TabControl>
+            <TabItem Header="Вкладка 1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="221"/>
+                        <ColumnDefinition Width="572"/>
+                    </Grid.ColumnDefinitions>
+                    <!--<TextBlock>
+                        <Run FontSize="20"> Фамилия:</Run><TextBlock Text=" Block"/>   
+                    </TextBlock>-->
+
+                    <GroupBox Grid.Column="0" Header="Данные клиента">
+                        <DockPanel>
+                            <UniformGrid  DockPanel.Dock="Bottom" Rows="1" Margin="0,3">
+                                <Button x:Name="ButtonOpenBill" Content="Открыть счёт" Margin="3,0" Padding="3,5" Command="{Binding Path=OpenBillCommand}" CommandParameter="{Binding Selected}"/>
+                                <Button x:Name="ButtonCloseBill" Content="Закрыть счёт" Margin="3,0" Padding="3,5" Command="{Binding Path=CloseBillCommand}" CommandParameter="{Binding Selected}"/>
+                            </UniformGrid>
+                            <StackPanel>
+                                <TextBlock Height="35">
+                                    <Run FontSize="20" Text="Фамилия: " FontWeight="Bold"/><TextBlock FontSize="20" Text="{Binding ElementName=MyListView, Path=SelectedItem.Surname}"/>   
+                                </TextBlock>
+                                <TextBlock Height="35">
+                                    <Run FontSize="20" Text="Имя: " FontWeight="Bold"/><TextBlock FontSize="20" Text="{Binding ElementName=MyListView, Path=SelectedItem.Name}"/>   
+                                </TextBlock>
+                                <TextBlock Height="35">
+                                    <Run FontSize="20" Text="Отчество: " FontWeight="Bold"/><TextBlock FontSize="20" Text="{Binding ElementName=MyListView, Path=SelectedItem.Patronymic}"/>   
+                                </TextBlock>
+                                <TextBlock Height="50" TextWrapping="Wrap">
+                                    <Run FontSize="20" Text="Номер телефона: " FontWeight="Bold"/>
+                                    <TextBlock TextWrapping="Wrap" FontSize="18" Text="{Binding ElementName=MyListView, Path=SelectedItem.NumberPhone}"/>   
+                                </TextBlock>
+                                <TextBlock Height="50" TextWrapping="Wrap">
+                                    <Run FontSize="20" Text="Адрес: " FontWeight="Bold"/>
+                                    <TextBlock TextWrapping="Wrap" FontSize="18" Text="{Binding ElementName=MyListView, Path=SelectedItem.Address}"/>   
+                                </TextBlock>
+                                <TextBlock Height="35">
+                                    <Run FontSize="20" FontWeight="Bold"/><TextBlock FontSize="20"/>   
+                                </TextBlock>
+                                <Button x:Name="ButtonTransfer" Content="Перевести" Padding="3,5" Command="{Binding TransferCommand}" CommandParameter="{Binding Selected}"/>
+                                <TextBlock Height="35"><Run FontSize="20" Text="Счёт: " FontWeight="Bold"/>
+                                    <TextBlock x:Name="billText" FontSize="20" Text="{Binding SelectedItem.Check, ElementName=MyListView}"/>
+                                </TextBlock>
+                                <!--<TextBlock Height="35">
+                                    <Run FontSize="20" Text="Тип: " FontWeight="Bold"/><TextBlock FontSize="20" Text="{Binding ElementName=MyListView, Path=SelectedItem.Type}"/>   
+                                </TextBlock>-->
+                            </StackPanel>
+                        </DockPanel>
+                        <!--<GroupBox.Resources>
+                            <DataTemplate DataType="{x:Type System:String}">
+                                <TextBlock>
+                                    <Run FontSize="20"> Фамилия:</Run><TextBlock Text=" Block"/>   
+                                </TextBlock>
+                            </DataTemplate>
+                        </GroupBox.Resources>-->
+                    </GroupBox>
+                    <GroupBox  Grid.Column="1" Header="Клиенты">
+                        <ListView x:Name="MyListView" ItemsSource="{Binding Clients}" SelectedItem="{Binding Selected}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Surname}"/>
+                                    <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Name}"/>
+                                    <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Patronymic}"/>
+                                    <GridViewColumn Header="Номер телефона" DisplayMemberBinding="{Binding NumberPhone}"/>
+                                    <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Address}"/>
+                                    <GridViewColumn x:Name="Check" Header="Счёт" DisplayMemberBinding="{Binding Check}"/>
+                                    <GridViewColumn Header="Тип" DisplayMemberBinding="{Binding Type}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </GroupBox>
+                    <!--<TextBlock HorizontalAlignment="Left" Margin="10,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Height="31">
+                         <Run FontSize="20"> Фамилия:</Run><TextBlock Text=" Block"/>
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,58,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="31" Width="140">
+                         <Run FontSize="20"> Имя:</Run><TextBlock Text=" Block"/>
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,94,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="125" Height="29">
+                         <Run FontSize="20"> Отчество:</Run><TextBlock Text=" Block"/>
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="-0.899,-0.665" Width="125" Height="27">
+                         <Run FontSize="20"> Номер телефона:</Run><TextBlock Text=" Block"/>
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="34">
+                         <Run FontSize="20"> Аддресс:</Run><TextBlock Text=" Block"/>
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="33">
+                         <Run FontSize="20"> Счет:</Run><TextBlock Text=" Block"/>
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,237,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="40">
+                         <Run FontSize="20"> Тип:</Run><TextBlock Text=" Block"/>
+                    </TextBlock>-->
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>
