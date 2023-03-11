@@ -6,22 +6,27 @@
         xmlns:local="clr-namespace:StartC_OOP_3.Views.Windows.BillWindow"
         xmlns:vm="clr-namespace:StartC_OOP_3.ViewModels"
         mc:Ignorable="d"
-        Title="BillWindow" Height="205" Width="385" WindowStartupLocation="CenterOwner">
+        Title="BillWindow" Height="256" Width="392" WindowStartupLocation="CenterOwner">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
     <Grid Margin="10,10,10,5">
-        <TextBlock HorizontalAlignment="Left" Margin="118,10,0,0" VerticalAlignment="Top" Height="40" Width="150">
+        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="150">
             <Run FontSize="20" FontWeight="DemiBold" Text="Счёт: "/><TextBlock x:Name="textBill" FontWeight="Medium" FontSize="18"/>
         </TextBlock>
-        <TextBox x:Name="billBox" FontSize="20" FontWeight="DemiBold" HorizontalAlignment="Left" Margin="118,55,0,0" 
+        <TextBox x:Name="billBox" FontSize="20" FontWeight="DemiBold" HorizontalAlignment="Left" Margin="0,45,0,0" 
                  TextWrapping="Wrap" VerticalAlignment="Top" Height="40" Width="150" />
-        <UniformGrid Margin="48,106,48,10">
-            <Button x:Name="HereButton" Content="Плюс" Margin="0,0,3,-20" Click="HereButton_Click"/>
-            <!--Click="HereButton_Click"-->
-            <Button x:Name="ThereButton" Content="Минус" Margin="3,0,0,-20" Click="ThereButton_Click"/>
-            <!--Click="ThereButton_Click"-->
+        <UniformGrid Margin="0,106,10,64" RenderTransformOrigin="0.502,0.381">
+            <Button x:Name="HereButton" Content="Перевести на счёт" Margin="0,0,3,-20" Click="HereButton_Click"/>
+            <Button x:Name="ThereButton" Content="Перевести из счёта" Margin="3,0,0,-20" Click="ThereButton_Click"/>
         </UniformGrid>
-        <Button Content="close" HorizontalAlignment="Left" Margin="29,44,0,0" VerticalAlignment="Top" Height="31" Width="52" CommandParameter="{Binding Selected}" Command="{Binding Path=ClosingBillWindowCommand}"/>
+        <Button Content="Закрыть и сохранить" Background="MediumSeaGreen" HorizontalAlignment="Left" Margin="190,4,0,0" VerticalAlignment="Top" Height="32" Width="172" 
+                Click="Button_CloseClick" CommandParameter="{Binding Selected}" Command="{Binding Path=ClosingBillWindowCommand}"/>
+       
+        <Button Name="Topup" Background="DeepSkyBlue" Content="Пополнить счёт" HorizontalAlignment="Left" Margin="109,153,0,0" VerticalAlignment="Top" Width="144" Height="40" Click="Topup_Click" Cursor="Hand"/>
+        <TextBlock HorizontalAlignment="Left" Margin="181,90,0,0" VerticalAlignment="Top">
+            <Run Text="Итого для перевода: "/> 
+            <TextBlock x:Name="billSums" HorizontalAlignment="Left" Text="{Binding Path=Value}"/>
+        </TextBlock>
     </Grid>
 </Window>

@@ -9,15 +9,16 @@ using System.Threading.Tasks;
 
 namespace StartC_OOP_3
 {
-    internal class Client : INotifyPropertyChanged
+    internal class Client<T> : INotifyPropertyChanged
+        where T : class
     {
-        private string _Name;
-        private string _Surname;
-        private string _Patronymic;
-        private string _NumberPhone;
-        private string _Address;
-        private string _Check;
-        private int _Type;
+        private T _Name;
+        private T _Surname;
+        private T _Patronymic;
+        private T _NumberPhone;
+        private T _Address;
+        private T _Check;
+        private T _DepBill;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -26,7 +27,7 @@ namespace StartC_OOP_3
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public string Name
+        public T Name
         {
             get { return _Name; }
             set
@@ -37,7 +38,7 @@ namespace StartC_OOP_3
             }
         }
 
-        public string Surname
+        public T Surname
         {
             get { return _Surname; }
             set
@@ -48,7 +49,7 @@ namespace StartC_OOP_3
             }
         }
 
-        public string Patronymic
+        public T Patronymic
         {
             get { return _Patronymic; }
             set
@@ -59,7 +60,7 @@ namespace StartC_OOP_3
             }
         }
 
-        public string NumberPhone
+        public T NumberPhone
         {
             get { return _NumberPhone; }
             set
@@ -70,7 +71,7 @@ namespace StartC_OOP_3
             }
         }
 
-        public string Address
+        public T Address
         {
             get { return _Address; }
             set
@@ -81,7 +82,10 @@ namespace StartC_OOP_3
             }
         }
 
-        public string Check
+        /// <summary>
+        /// Недепозитный счёт
+        /// </summary>
+        public T Check
         {
             get { return _Check; }
             set
@@ -92,18 +96,21 @@ namespace StartC_OOP_3
             }
         }
 
-        public int Type
+        /// <summary>
+        /// Депозитный счёт
+        /// </summary>
+        public T DepBill
         {
-            get { return _Type; }
+            get { return _DepBill; }
             set
             {
-                if (Equals(_Type, value)) return;
-                _Type = value;
+                if (Equals(_DepBill, value)) return;
+                _DepBill = value;
                 OnPropertyChanged();
             }
         }
 
-        public Client(string name, string surname, string patronymic, string numberPhone, string address, string check, int type)
+        public Client(T name, T surname, T patronymic, T numberPhone, T address, T check, T depBill)
         {
             Name = name;
             Surname = surname;
@@ -111,21 +118,7 @@ namespace StartC_OOP_3
             NumberPhone = numberPhone;
             Address = address;
             Check = check;
-            Type = type;
-            Name = name;
-            Surname = surname;
-            Patronymic = patronymic;
-            NumberPhone = numberPhone;
-            Address = address;
-            Check = check;
-            Type = type;
+            DepBill = depBill;
         }
-        
-        //public ICollection<Client> Clients { get; set; }
-    }
-
-    internal class ClientCollection
-    {
-        public ICollection<Client> Cliented { get; set; }
     }
 }

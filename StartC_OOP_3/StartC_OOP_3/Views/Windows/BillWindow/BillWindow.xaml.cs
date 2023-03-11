@@ -22,12 +22,7 @@ namespace StartC_OOP_3.Views.Windows.BillWindow
     {
         public BillWindow()
         {
-            //MainWindow mainWindow = new MainWindow();
-            //DataContext = mainWindow;
-            //MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
-            //DataContext = mainWindowViewModel;
             InitializeComponent();
-            //Closing += BillWindow_Closing;
         }
 
         private void BillWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -36,17 +31,47 @@ namespace StartC_OOP_3.Views.Windows.BillWindow
             mainWindow.billText.Text = textBill.Text;
             MessageBox.Show("ClosingWindow");
         }
-
-        private void HereButton_Click(object sender, RoutedEventArgs e)
+        
+        private void HereButton_Click(object sender, RoutedEventArgs e) 
         {
-            int sums = int.Parse(textBill.Text) + int.Parse(billBox.Text);
+            int sums = int.Parse(textBill.Text) + int.Parse(billSums.Text);
+            int minusSums = int.Parse(billSums.Text) - int.Parse(billSums.Text);
+            billSums.Text = minusSums.ToString();
             textBill.Text = sums.ToString();
         }
 
         private void ThereButton_Click(object sender, RoutedEventArgs e)
+        {   
+            if (billBox.Text == "") { billBox.Text = "0"; }
+
+            bool result = Int32.TryParse(billBox.Text, out int val);
+            if (result == true)
+            {
+                int sums = int.Parse(textBill.Text) - int.Parse(billBox.Text);
+                textBill.Text = sums.ToString();
+
+                int minusSum = int.Parse(billSums.Text) + int.Parse(billBox.Text);
+                billSums.Text = minusSum.ToString();
+            }
+            else { MessageBox.Show("Неправильный ввод счёта", "Warning!", MessageBoxButton.OK, MessageBoxImage.Information); }
+        }
+
+        private void Button_CloseClick(object sender, RoutedEventArgs e)
         {
-            int sums = int.Parse(textBill.Text) - int.Parse(billBox.Text);
-            textBill.Text = sums.ToString();
+            Close();
+        }
+
+        private void Topup_Click(object sender, RoutedEventArgs e)
+        {
+            if (billBox.Text == "") { billBox.Text = "0"; }
+            bool result = Int32.TryParse(billBox.Text, out int val);
+
+            if (result == true) 
+            {
+                int sums = int.Parse(textBill.Text) + int.Parse(billBox.Text);
+                textBill.Text = sums.ToString();
+            }
+            else { MessageBox.Show("Неправильный ввод счёта", "Warning", MessageBoxButton.OK, MessageBoxImage.Information); }
         }
     }
 }

@@ -6,113 +6,166 @@
         xmlns:local="clr-namespace:StartC_OOP_3"
         xmlns:vm="clr-namespace:StartC_OOP_3.ViewModels"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
-        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+     FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="MainWindow" Height="495" Width="1138" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="{x:Type ComboBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton x:Name="DropDownToggle"
+      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  
+      Margin="-1" HorizontalContentAlignment="Right"
+      IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,
+                  RelativeSource={RelativeSource TemplatedParent}}">
+                                <Path x:Name="BtnArrow" Height="4" Width="8" 
+        Stretch="Uniform" Margin="0,0,6,0"  Fill="Black"
+        Data="F1 M 300,-190L 310,-190L 305,-183L 301,-190 Z " />
+                            </ToggleButton>
+                            <ContentPresenter x:Name="ContentPresenter" Margin="6,2,25,2"
+      Content="{TemplateBinding SelectionBoxItem}"
+      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+      ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}">
+                            </ContentPresenter>
+                            <TextBox x:Name="PART_EditableTextBox"
+                                  Style="{x:Null}"
+                                  Focusable="False"
+                                  Background="{TemplateBinding Background}"
+                                  HorizontalAlignment="Left" 
+                                  VerticalAlignment="Center" 
+                                  Margin="3,3,23,3"
+                                  Visibility="Hidden"
+                                  IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                            <Popup x:Name="PART_Popup" Placement="Top"
+                                      IsOpen="{TemplateBinding IsDropDownOpen}">
+                                <Border x:Name="PopupBorder" 
+                                        HorizontalAlignment="Stretch" Height="Auto"                                                                         
+                                        MinWidth="{TemplateBinding ActualWidth}"
+                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                        BorderThickness="{TemplateBinding BorderThickness}" 
+                                        BorderBrush="Black" Background="White" CornerRadius="3">
+                                    <ScrollViewer x:Name="ScrollViewer" BorderThickness="0" Padding="1">
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Window.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel x:Name="ViewModel"/>
     </Window.DataContext>
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="Выход">
+        <Menu DockPanel.Dock="Top" Height="27">
+            <MenuItem Header="Выход" Height="27">
                 <MenuItem Header="Выход" Command="{Binding Path=CloseApplicationCommand}"/>
             </MenuItem>
-            <MenuItem Header="Помощь">
+            <MenuItem Header="Помощь" Height="29">
                 <MenuItem Header="О прорамме"/>
             </MenuItem>
         </Menu>
-        <!--<StatusBar DockPanel.Dock="Bottom"></StatusBar>-->
-        <TabControl>
-            <TabItem Header="Вкладка 1">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="221"/>
-                        <ColumnDefinition Width="572"/>
-                    </Grid.ColumnDefinitions>
-                    <!--<TextBlock>
-                        <Run FontSize="20"> Фамилия:</Run><TextBlock Text=" Block"/>   
-                    </TextBlock>-->
-
-                    <GroupBox Grid.Column="0" Header="Данные клиента">
+        <!--<TabControl>-->
+            <!--<TabItem Header="Вкладка 1">-->
+        <Grid Margin="0,0,-2,0" Width="1135">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="221"/>
+                <ColumnDefinition Width="572"/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Grid.Column="0" Header="Данные клиента">
                         <DockPanel>
                             <UniformGrid  DockPanel.Dock="Bottom" Rows="1" Margin="0,3">
-                                <Button x:Name="ButtonOpenBill" Content="Открыть счёт" Margin="3,0" Padding="3,5" Command="{Binding Path=OpenBillCommand}" CommandParameter="{Binding Selected}"/>
-                                <Button x:Name="ButtonCloseBill" Content="Закрыть счёт" Margin="3,0" Padding="3,5" Command="{Binding Path=CloseBillCommand}" CommandParameter="{Binding Selected}"/>
+                                
+                                <ComboBox Name="closeAndopenBill" Margin="3,0" Padding="3,5" MouseEnter="closeAndopenBill_MouseEnter">
+                                    <Button x:Name="ButtonOpenBill" Content="Открыть счёт" Background="Green" Margin="3,0" Padding="3,5" Command="{Binding Path=OpenBillCommand}" CommandParameter="{Binding Selected}"/>
+                                    <Button x:Name="ButtonCloseBill" Content="Закрыть счёт" Background="Red" Margin="3,0" Padding="3,5" Command="{Binding Path=CloseBillCommand}" CommandParameter="{Binding Selected}"/>
+                                </ComboBox>
+                                
+                                 <ComboBox Name="closeAndopenDepBill" FlowDirection="RightToLeft" Margin="3,0" Padding="3,5" MouseEnter="closeAndopenDepBill_MouseEnter">
+                                    <Button Content="Открыть деп. счёт" Margin="3,0" Background="Green" Padding="3,5" Command="{Binding Path=OpenDepBillCommmand}" CommandParameter="{Binding Selected}"/>
+                                    <Button Content="Закрыть деп. счёт" Margin="3,0" Background="Red" Padding="3,5" Command="{Binding Path=CloseDepBillCommand}" CommandParameter="{Binding Selected}"/>
+                                </ComboBox>
+                                
                             </UniformGrid>
+                            
                             <StackPanel>
-                                <TextBlock Height="35">
+                                
+                                <TextBlock Height="40">
                                     <Run FontSize="20" Text="Фамилия: " FontWeight="Bold"/><TextBlock FontSize="20" Text="{Binding ElementName=MyListView, Path=SelectedItem.Surname}"/>   
                                 </TextBlock>
-                                <TextBlock Height="35">
+                                
+                                <TextBlock Height="40">
                                     <Run FontSize="20" Text="Имя: " FontWeight="Bold"/><TextBlock FontSize="20" Text="{Binding ElementName=MyListView, Path=SelectedItem.Name}"/>   
                                 </TextBlock>
-                                <TextBlock Height="35">
+                                
+                                <TextBlock Height="40">
                                     <Run FontSize="20" Text="Отчество: " FontWeight="Bold"/><TextBlock FontSize="20" Text="{Binding ElementName=MyListView, Path=SelectedItem.Patronymic}"/>   
                                 </TextBlock>
-                                <TextBlock Height="50" TextWrapping="Wrap">
+                                
+                                <TextBlock Height="60" TextWrapping="Wrap">
                                     <Run FontSize="20" Text="Номер телефона: " FontWeight="Bold"/>
                                     <TextBlock TextWrapping="Wrap" FontSize="18" Text="{Binding ElementName=MyListView, Path=SelectedItem.NumberPhone}"/>   
                                 </TextBlock>
-                                <TextBlock Height="50" TextWrapping="Wrap">
+                                
+                                <TextBlock Height="60" TextWrapping="Wrap">
                                     <Run FontSize="20" Text="Адрес: " FontWeight="Bold"/>
                                     <TextBlock TextWrapping="Wrap" FontSize="18" Text="{Binding ElementName=MyListView, Path=SelectedItem.Address}"/>   
                                 </TextBlock>
-                                <TextBlock Height="35">
-                                    <Run FontSize="20" FontWeight="Bold"/><TextBlock FontSize="20"/>   
+                                
+                                <TextBlock Height="10">
+                                    <Run/><TextBlock/>
                                 </TextBlock>
-                                <Button x:Name="ButtonTransfer" Content="Перевести" Padding="3,5" Command="{Binding TransferCommand}" CommandParameter="{Binding Selected}"/>
+                                
+                                <ComboBox Name="chooseBillComboBox" Text="Перевести" Padding="3,5" MouseEnter="ComboBox_MouseEnter">
+                                    
+                                    <ComboBox.InputBindings>
+                                        <MouseBinding Command="{Binding TransferCommand}" CommandParameter="{Binding Selected}"/>
+                                    </ComboBox.InputBindings>
+                                    
+                                <Button x:Name="ButtonTransfer" Width="200" Content="Перевести счёт" Padding="3,5" Command="{Binding TransferCommand}" CommandParameter="{Binding Selected}"/>
+                                    
+                                <Button Width="200" Content="Перевести депозитный счёт" Padding="3,5" Command="{Binding TransferDepCommand}" CommandParameter="{Binding Selected}"/>
+                                    
+                            </ComboBox>
+                                
                                 <TextBlock Height="35"><Run FontSize="20" Text="Счёт: " FontWeight="Bold"/>
                                     <TextBlock x:Name="billText" FontSize="20" Text="{Binding SelectedItem.Check, ElementName=MyListView}"/>
                                 </TextBlock>
-                                <!--<TextBlock Height="35">
-                                    <Run FontSize="20" Text="Тип: " FontWeight="Bold"/><TextBlock FontSize="20" Text="{Binding ElementName=MyListView, Path=SelectedItem.Type}"/>   
-                                </TextBlock>-->
-                            </StackPanel>
-                        </DockPanel>
-                        <!--<GroupBox.Resources>
-                            <DataTemplate DataType="{x:Type System:String}">
-                                <TextBlock>
-                                    <Run FontSize="20"> Фамилия:</Run><TextBlock Text=" Block"/>   
+                                
+                                <TextBlock Height="35">
+                                    <Run FontSize="20" Text="Деп. Счёт: " FontWeight="Bold"/><TextBlock FontSize="20" Text="{Binding SelectedItem.DepBill, ElementName=MyListView}"/>
                                 </TextBlock>
-                            </DataTemplate>
-                        </GroupBox.Resources>-->
-                    </GroupBox>
-                    <GroupBox  Grid.Column="1" Header="Клиенты">
-                        <ListView x:Name="MyListView" ItemsSource="{Binding Clients}" SelectedItem="{Binding Selected}">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Surname}"/>
-                                    <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Name}"/>
-                                    <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Patronymic}"/>
-                                    <GridViewColumn Header="Номер телефона" DisplayMemberBinding="{Binding NumberPhone}"/>
-                                    <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Address}"/>
-                                    <GridViewColumn x:Name="Check" Header="Счёт" DisplayMemberBinding="{Binding Check}"/>
-                                    <GridViewColumn Header="Тип" DisplayMemberBinding="{Binding Type}"/>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    </GroupBox>
-                    <!--<TextBlock HorizontalAlignment="Left" Margin="10,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Height="31">
-                         <Run FontSize="20"> Фамилия:</Run><TextBlock Text=" Block"/>
-                    </TextBlock>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,58,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="31" Width="140">
-                         <Run FontSize="20"> Имя:</Run><TextBlock Text=" Block"/>
-                    </TextBlock>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,94,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="125" Height="29">
-                         <Run FontSize="20"> Отчество:</Run><TextBlock Text=" Block"/>
-                    </TextBlock>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="-0.899,-0.665" Width="125" Height="27">
-                         <Run FontSize="20"> Номер телефона:</Run><TextBlock Text=" Block"/>
-                    </TextBlock>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="34">
-                         <Run FontSize="20"> Аддресс:</Run><TextBlock Text=" Block"/>
-                    </TextBlock>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="33">
-                         <Run FontSize="20"> Счет:</Run><TextBlock Text=" Block"/>
-                    </TextBlock>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,237,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="40">
-                         <Run FontSize="20"> Тип:</Run><TextBlock Text=" Block"/>
-                    </TextBlock>-->
-                </Grid>
-            </TabItem>
-        </TabControl>
+                                
+                            </StackPanel>
+                       </DockPanel>                 
+            </GroupBox>
+            
+            <GroupBox  Grid.Column="1" Header="{Binding ClientCount}" Margin="0,0,-342,0">
+                <ListView x:Name="MyListView" ItemsSource="{Binding Clients}" SelectedItem="{Binding Selected}" Margin="0,0,19,0">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Surname}"/>
+                            <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Name}"/>
+                            <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Patronymic}"/>
+                            <GridViewColumn Header="Номер телефона" DisplayMemberBinding="{Binding NumberPhone}"/>
+                            <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Address}"/>
+                            <GridViewColumn x:Name="Check" Header="Счёт" DisplayMemberBinding="{Binding Check}"/>
+                            <GridViewColumn Header="Деп. Счёт" DisplayMemberBinding="{Binding DepBill}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </GroupBox>
+        </Grid>
+            <!--</TabItem>-->
+        <!--</TabControl>-->
     </DockPanel>
 </Window>
